@@ -11,6 +11,7 @@ RUN set -x; \
         apache2 \
         libapache2-mod-php7.1 \
         php7.1-mysql \
+	php7.1-pgsql \
         php7.1-cli \
         php7.1-gd \
         php7.1-curl \
