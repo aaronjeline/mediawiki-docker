@@ -90,29 +90,6 @@ done
 
 export MEDIAWIKI_DB_TYPE MEDIAWIKI_DB_HOST MEDIAWIKI_DB_USER MEDIAWIKI_DB_PASSWORD MEDIAWIKI_DB_NAME
 
-TERM=dumb php -- <<'EOPHP'
-<?php
-// database might not exist, so let's try creating it (just to be safe)
-
-if ($_ENV['MEDIAWIKI_DB_TYPE'] == 'mysql') {
-
-	$mysql = new mysqli($_ENV['MEDIAWIKI_DB_HOST'], $_ENV['MEDIAWIKI_DB_USER'], $_ENV['MEDIAWIKI_DB_PASSWORD'], '', (int) $_ENV['MEDIAWIKI_DB_PORT']);
-
-	if ($mysql->connect_error) {
-		file_put_contents('php://stderr', 'MySQL Connection Error: (' . $mysql->connect_errno . ') ' . $mysql->connect_error . "\n");
-		exit(1);
-	}
-
-	if (!$mysql->query('CREATE DATABASE IF NOT EXISTS `' . $mysql->real_escape_string($_ENV['MEDIAWIKI_DB_NAME']) . '`')) {
-		file_put_contents('php://stderr', 'MySQL "CREATE DATABASE" Error: ' . $mysql->error . "\n");
-		$mysql->close();
-		exit(1);
-	}
-
-	$mysql->close();
-}
-EOPHP
-
 cd /var/www/html
 # FIXME: Keep php files out of the doc root.
 ln -s /usr/src/mediawiki/* .
