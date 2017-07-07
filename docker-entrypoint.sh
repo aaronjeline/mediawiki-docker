@@ -209,4 +209,5 @@ mkdir -p images
 chown -R www-data: .
 chmod 755 images
 
-exec "$@"
+exec apachectl -e info -D FOREGROUND
+
